@@ -8,7 +8,7 @@ import os
 from datetime import datetime
 from typing import Dict, Any, List
 from dotenv import load_dotenv
-from anthropic import Anthropic
+import google.generativeai as genai
 
 # .env 파일 로드
 load_dotenv()
@@ -39,16 +39,21 @@ def get_api_key(key_name: str) -> str:
 class CriticalAnalyzer:
     """비판적 추론 프레임워크를 적용한 데이터 분석 클래스"""
 
-    def __init__(self, anthropic_api_key: str = None):
+    def __init__(self, gemini_api_key: str = None):
         """
         Args:
-            anthropic_api_key: Claude API 키 (환경변수 ANTHROPIC_API_KEY로도 설정 가능)
+            gemini_api_key: Gemini API 키 (환경변수 GEMINI_API_KEY로도 설정 가능)
         """
-        self.api_key = anthropic_api_key or get_api_key('ANTHROPIC_API_KEY')
+        self.api_key = gemini_api_key or get_api_key('GEMINI_API_KEY')
         if not self.api_key:
-            raise ValueError("ANTHROPIC_API_KEY가 설정되지 않았습니다. Streamlit Secrets 또는 .env 파일에서 API 키를 설정하세요.")
+            raise ValueError("GEMINI_API_KEY가 설정되지 않았습니다. Streamlit Secrets 또는 .env 파일에서 API 키를 설정하세요.")
 
-        self.client = Anthropic(api_key=self.api_key)
+        # Gemini 설정
+        genai.configure(api_key=self.api_key)
+
+        # 모델 선택 (gemini-1.5-pro 또는 gemini-1.5-flash)
+        # Flash: 더 빠르고 저렴, Pro: 더 정확하고 고품질
+        self.model = genai.GenerativeModel('gemini-1.5-flash')  # 또는 'gemini-1.5-pro'
 
     def load_data(self, json_file_path) -> Dict[str, Any]:
         """
@@ -264,26 +269,25 @@ class CriticalAnalyzer:
         print("[INFO] Creating critical reasoning prompt...")
         prompt = self.create_critical_prompt(data)
 
-        # 3. Claude API 호출
-        print("[INFO] Calling Claude API...")
+        # 3. Gemini API 호출
+        print("[INFO] Calling Gemini API...")
         try:
-            message = self.client.messages.create(
-                model="claude-sonnet-4-20250514",  # 최신 Sonnet 모델
-                max_tokens=4096,
-                temperature=0.3,  # 낮은 temperature로 객관적 분석 유도
-                messages=[
-                    {
-                        "role": "user",
-                        "content": prompt
-                    }
-                ]
+            # Gemini 생성 설정
+            generation_config = {
+                "temperature": 0.3,  # 낮은 temperature로 객관적 분석 유도
+                "max_output_tokens": 4096,
+            }
+
+            response = self.model.generate_content(
+                prompt,
+                generation_config=generation_config
             )
 
-            analysis_text = message.content[0].text
+            analysis_text = response.text
             print("[OK] Analysis complete!\n")
 
         except Exception as e:
-            print(f"[ERROR] Claude API call failed: {str(e)}")
+            print(f"[ERROR] Gemini API call failed: {str(e)}")
             analysis_text = f"분석 실패: {str(e)}"
 
         # 4. 결과 구성
@@ -293,7 +297,7 @@ class CriticalAnalyzer:
             "source_file": json_file_path,
             "analysis": analysis_text,
             "metadata": {
-                "model": "claude-sonnet-4-20250514",
+                "model": "gemini-1.5-flash",  # 또는 gemini-1.5-pro
                 "framework": "Critical Reasoning Framework",
                 "rules": [
                     "Data-Narrative Discrepancy Analysis",
