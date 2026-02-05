@@ -1,0 +1,2 @@
+[WARN] Files still with emoji:
+  report_manager.py
