@@ -447,18 +447,28 @@ def main():
     with st.sidebar:
         st.markdown("### [SETTINGS] 설정")
 
-        # API 키 확인
+        # API 키 확인 (Streamlit Secrets 또는 환경변수)
+        def check_api_key(key_name):
+            """Streamlit Secrets 또는 환경변수에서 API 키 확인"""
+            try:
+                # Streamlit Secrets 확인
+                if key_name in st.secrets:
+                    return bool(st.secrets[key_name])
+            except:
+                pass
+            # 환경변수 확인
+            return bool(os.getenv(key_name))
+
         api_keys_ok = all([
-            os.getenv('DART_API_KEY'),
-            os.getenv('NEWS_API_KEY'),
-            os.getenv('ANTHROPIC_API_KEY')
+            check_api_key('DART_API_KEY'),
+            check_api_key('ANTHROPIC_API_KEY')
         ])
 
         if api_keys_ok:
             st.success("[OK] API 키 설정 완료")
         else:
             st.error("[ERROR] API 키 확인 필요")
-            st.info(".env 파일에서 API 키를 설정하세요.")
+            st.info("Streamlit Secrets 또는 .env 파일에서 API 키를 설정하세요.")
 
         st.markdown("---")
 
