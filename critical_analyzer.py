@@ -51,9 +51,9 @@ class CriticalAnalyzer:
         # Gemini 설정
         genai.configure(api_key=self.api_key)
 
-        # 모델 선택 (gemini-1.5-pro 또는 gemini-1.5-flash)
-        # Flash: 더 빠르고 저렴, Pro: 더 정확하고 고품질
-        self.model = genai.GenerativeModel('gemini-1.5-flash')  # 또는 'gemini-1.5-pro'
+        # 모델 선택 (gemini-2.0-flash-exp: 최신 실험 버전)
+        # 2.0 Flash: 최신 모델, 빠르고 정확함
+        self.model = genai.GenerativeModel('gemini-2.0-flash-exp')
 
     def load_data(self, json_file_path) -> Dict[str, Any]:
         """
@@ -297,7 +297,7 @@ class CriticalAnalyzer:
             "source_file": json_file_path,
             "analysis": analysis_text,
             "metadata": {
-                "model": "gemini-1.5-flash",  # 또는 gemini-1.5-pro
+                "model": "gemini-2.0-flash-exp",
                 "framework": "Critical Reasoning Framework",
                 "rules": [
                     "Data-Narrative Discrepancy Analysis",
