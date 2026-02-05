@@ -177,10 +177,29 @@ class DataCollector:
             # 피드 항목 처리
             if feed.entries:
                 for entry in feed.entries[:count]:
+                    # HTML 태그 제거 및 텍스트 정리
+                    raw_description = entry.get('summary', 'N/A')
+
+                    # BeautifulSoup으로 HTML 태그 제거
+                    if raw_description != 'N/A':
+                        try:
+                            soup = BeautifulSoup(raw_description, 'html.parser')
+                            clean_text = soup.get_text(separator=' ', strip=True)
+
+                            # 길이 제한 (300자)
+                            if len(clean_text) > 300:
+                                clean_text = clean_text[:297] + "..."
+
+                            description = clean_text if clean_text else "요약 없음"
+                        except:
+                            description = "요약 없음"
+                    else:
+                        description = "요약 없음"
+
                     # Google News RSS 항목 파싱
                     news_item = {
                         "title": entry.get('title', 'N/A'),
-                        "description": entry.get('summary', 'N/A'),
+                        "description": description,
                         "source": entry.get('source', {}).get('title', 'Google News') if hasattr(entry, 'source') else 'Google News',
                         "published": entry.get('published', 'N/A'),
                         "link": entry.get('link', 'N/A'),
