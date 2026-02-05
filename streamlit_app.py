@@ -341,89 +341,149 @@ class AnalysisHistory:
 
 
 def get_ticker_mapping():
-    """종목명-티커 매핑 반환"""
-    return {
-        "삼성전자": "005930.KS",
-        "005930.KS": "005930.KS",
-        "005930": "005930.KS",
-        "SK하이닉스": "000660.KS",
-        "000660.KS": "000660.KS",
-        "000660": "000660.KS",
-        "NAVER": "035420.KS",
-        "네이버": "035420.KS",
-        "035420.KS": "035420.KS",
-        "035420": "035420.KS",
-        "LG화학": "051910.KS",
-        "051910.KS": "051910.KS",
-        "051910": "051910.KS",
-        "현대차": "005380.KS",
-        "005380.KS": "005380.KS",
-        "005380": "005380.KS",
-        "삼성SDI": "006400.KS",
-        "006400.KS": "006400.KS",
-        "006400": "006400.KS",
-        "카카오": "035720.KS",
-        "035720.KS": "035720.KS",
-        "035720": "035720.KS",
-        "삼성바이오로직스": "207940.KS",
-        "207940.KS": "207940.KS",
-        "207940": "207940.KS",
-        "셀트리온": "068270.KS",
-        "068270.KS": "068270.KS",
-        "068270": "068270.KS",
-        "삼성물산": "028260.KS",
-        "028260.KS": "028260.KS",
-        "028260": "028260.KS",
-        "포스코홀딩스": "003670.KS",
-        "003670.KS": "003670.KS",
-        "003670": "003670.KS",
-        "현대모비스": "012330.KS",
-        "012330.KS": "012330.KS",
-        "012330": "012330.KS",
-        "기아": "000270.KS",
-        "000270.KS": "000270.KS",
-        "000270": "000270.KS",
-        "KB금융": "105560.KS",
-        "105560.KS": "105560.KS",
-        "105560": "105560.KS",
-        "신한지주": "055550.KS",
-        "055550.KS": "055550.KS",
-        "055550": "055550.KS",
-        "SK텔레콤": "017670.KS",
-        "017670.KS": "017670.KS",
-        "017670": "017670.KS",
-        "SK이노베이션": "096770.KS",
-        "096770.KS": "096770.KS",
-        "096770": "096770.KS",
-        "두산에너빌리티": "034020.KS",
-        "034020.KS": "034020.KS",
-        "034020": "034020.KS",
-        "삼성전기": "009150.KS",
-        "009150.KS": "009150.KS",
-        "009150": "009150.KS",
-        "삼성에스디에스": "018260.KS",
-        "018260.KS": "018260.KS",
-        "018260": "018260.KS",
+    """종목명-티커 매핑 반환 (한국 80종목 + 미국 50종목)"""
+    mapping = {}
+
+    # ========================================
+    # 🇰🇷 한국 KOSPI 상위 50개 종목
+    # ========================================
+    kospi_stocks = {
+        "삼성전자": "005930.KS", "SK하이닉스": "000660.KS", "NAVER": "035420.KS", "네이버": "035420.KS",
+        "LG화학": "051910.KS", "현대차": "005380.KS", "삼성SDI": "006400.KS", "카카오": "035720.KS",
+        "삼성바이오로직스": "207940.KS", "셀트리온": "068270.KS", "삼성물산": "028260.KS",
+        "포스코홀딩스": "003670.KS", "현대모비스": "012330.KS", "기아": "000270.KS",
+        "KB금융": "105560.KS", "신한지주": "055550.KS", "SK텔레콤": "017670.KS",
+        "SK이노베이션": "096770.KS", "두산에너빌리티": "034020.KS", "삼성전기": "009150.KS",
+        # 추가 KOSPI 종목 (21-50)
+        "삼성에스디에스": "018260.KS", "LG전자": "066570.KS", "하나금융지주": "086790.KS",
+        "삼성생명": "032830.KS", "삼성화재": "000810.KS", "현대중공업지주": "267250.KS",
+        "LG생활건강": "051900.KS", "두산밥캣": "241560.KS", "SK": "034730.KS",
+        "메리츠금융지주": "138040.KS", "HD현대": "267260.KS", "SK스퀘어": "402340.KS",
+        "LG": "003550.KS", "고려아연": "010130.KS", "한국전력": "015760.KS",
+        "한화에어로스페이스": "012450.KS", "HMM": "011200.KS", "롯데케미칼": "011170.KS",
+        "한국가스공사": "036460.KS", "S-Oil": "010950.KS", "농심": "004370.KS",
+        "오리온": "271560.KS", "CJ제일제당": "097950.KS", "한국조선해양": "009540.KS",
+        "KT": "030200.KS", "대한항공": "003490.KS", "아모레퍼시픽": "090430.KS",
+        "현대건설": "000720.KS", "LG유플러스": "032640.KS", "현대글로비스": "086280.KS",
     }
+
+    # ========================================
+    # 🇰🇷 한국 KOSDAQ 인기 30개 종목
+    # ========================================
+    kosdaq_stocks = {
+        "셀트리온헬스케어": "091990.KQ", "에코프로비엠": "247540.KQ", "에코프로": "086520.KQ",
+        "알테오젠": "196170.KQ", "엘앤에프": "066970.KQ", "천보": "278280.KQ",
+        "리노공업": "058470.KQ", "파크시스템스": "140860.KQ", "클래시스": "214150.KQ",
+        "휴젤": "145020.KQ", "엔켐": "348370.KQ", "금양": "001570.KQ",
+        "제넥신": "095700.KQ", "레인보우로보틱스": "277810.KQ", "하이브": "352820.KQ",
+        "카카오게임즈": "293490.KQ", "펄어비스": "263750.KQ", "크래프톤": "259960.KQ",
+        "엔씨소프트": "036570.KQ", "위메이드": "112040.KQ", "컴투스": "078340.KQ",
+        "웹젠": "069080.KQ", "넷마블": "251270.KQ", "카카오뱅크": "323410.KQ",
+        "카카오페이": "377300.KQ", "두산퓨얼셀": "336260.KQ", "SK머티리얼즈": "036490.KQ",
+        "SK아이이테크놀로지": "361610.KQ", "에스엠": "041510.KQ", "JYP": "035900.KQ",
+    }
+
+    # ========================================
+    # 🇺🇸 미국 주요 50개 종목
+    # ========================================
+    us_stocks = {
+        # 빅테크
+        "애플": "AAPL", "Apple": "AAPL", "AAPL": "AAPL",
+        "마이크로소프트": "MSFT", "Microsoft": "MSFT", "MSFT": "MSFT",
+        "엔비디아": "NVDA", "Nvidia": "NVDA", "NVDA": "NVDA",
+        "아마존": "AMZN", "Amazon": "AMZN", "AMZN": "AMZN",
+        "구글": "GOOGL", "알파벳": "GOOGL", "Google": "GOOGL", "Alphabet": "GOOGL", "GOOGL": "GOOGL", "GOOG": "GOOG",
+        "메타": "META", "Meta": "META", "페이스북": "META", "Facebook": "META", "META": "META",
+        "테슬라": "TSLA", "Tesla": "TSLA", "TSLA": "TSLA",
+        "넷플릭스": "NFLX", "Netflix": "NFLX", "NFLX": "NFLX",
+        # 금융
+        "버크셔해서웨이": "BRK.B", "Berkshire": "BRK.B", "BRK.B": "BRK.B",
+        "비자": "V", "Visa": "V", "V": "V",
+        "마스터카드": "MA", "Mastercard": "MA", "MA": "MA",
+        "JPM체이스": "JPM", "JPMorgan": "JPM", "JPM": "JPM",
+        # 제조/소비재
+        "월마트": "WMT", "Walmart": "WMT", "WMT": "WMT",
+        "엑슨모빌": "XOM", "Exxon": "XOM", "XOM": "XOM",
+        "존슨앤존슨": "JNJ", "Johnson": "JNJ", "JNJ": "JNJ",
+        "프록터앤갬블": "PG", "Procter": "PG", "PG": "PG",
+        "코카콜라": "KO", "Coca-Cola": "KO", "KO": "KO",
+        "나이키": "NKE", "Nike": "NKE", "NKE": "NKE",
+        "맥도날드": "MCD", "McDonald": "MCD", "MCD": "MCD",
+        "스타벅스": "SBUX", "Starbucks": "SBUX", "SBUX": "SBUX",
+        "디즈니": "DIS", "Disney": "DIS", "DIS": "DIS",
+        # 테크/반도체
+        "AMD": "AMD", "어드밴스드마이크로디바이시스": "AMD",
+        "인텔": "INTC", "Intel": "INTC", "INTC": "INTC",
+        "퀄컴": "QCOM", "Qualcomm": "QCOM", "QCOM": "QCOM",
+        "어도비": "ADBE", "Adobe": "ADBE", "ADBE": "ADBE",
+        "오라클": "ORCL", "Oracle": "ORCL", "ORCL": "ORCL",
+        "시스코": "CSCO", "Cisco": "CSCO", "CSCO": "CSCO",
+        "IBM": "IBM",
+        # 헬스케어/제약
+        "유나이티드헬스": "UNH", "UnitedHealth": "UNH", "UNH": "UNH",
+        "엘리릴리": "LLY", "Eli Lilly": "LLY", "LLY": "LLY",
+        "화이자": "PFE", "Pfizer": "PFE", "PFE": "PFE",
+        "애브비": "ABBV", "AbbVie": "ABBV", "ABBV": "ABBV",
+        # 신흥 테크
+        "우버": "UBER", "Uber": "UBER", "UBER": "UBER",
+        "에어비앤비": "ABNB", "Airbnb": "ABNB", "ABNB": "ABNB",
+        "스냅": "SNAP", "Snap": "SNAP", "SNAP": "SNAP",
+        "스포티파이": "SPOT", "Spotify": "SPOT", "SPOT": "SPOT",
+        "줌": "ZM", "Zoom": "ZM", "ZM": "ZM",
+        "페이팔": "PYPL", "PayPal": "PYPL", "PYPL": "PYPL",
+        "팔란티어": "PLTR", "Palantir": "PLTR", "PLTR": "PLTR",
+        "스노우플레이크": "SNOW", "Snowflake": "SNOW", "SNOW": "SNOW",
+        # 산업/제조
+        "보잉": "BA", "Boeing": "BA", "BA": "BA",
+        "캐터필러": "CAT", "Caterpillar": "CAT", "CAT": "CAT",
+        "포드": "F", "Ford": "F", "F": "F",
+        "제너럴모터스": "GM", "GM": "GM",
+        "제너럴일렉트릭": "GE", "GE": "GE",
+    }
+
+    # 모든 매핑 합치기
+    mapping.update(kospi_stocks)
+    mapping.update(kosdaq_stocks)
+    mapping.update(us_stocks)
+
+    # 한국 종목은 티커로도 검색 가능하도록 (6자리 코드 + .KS/.KQ)
+    for name, ticker in list(mapping.items()):
+        if ticker.endswith('.KS') or ticker.endswith('.KQ'):
+            code = ticker.split('.')[0]
+            mapping[ticker] = ticker  # 전체 티커
+            mapping[code] = ticker    # 코드만
+
+    return mapping
 
 
 def resolve_ticker(input_text):
-    """입력값을 티커로 변환 (티커 형식이면 그대로 허용)"""
-    input_text = input_text.strip()
+    """입력값을 티커로 변환 (한국 + 미국 주식 지원)"""
+    input_text = input_text.strip().upper()  # 대문자로 통일
 
-    # 먼저 매핑 테이블에서 찾기
+    # 먼저 매핑 테이블에서 찾기 (한글명, 영문명, 티커 모두 검색)
     ticker_map = get_ticker_mapping()
     if input_text in ticker_map:
         return ticker_map[input_text]
 
-    # 티커 형식 (6자리.KS 또는 6자리.KQ)이면 그대로 허용
     import re
+
+    # 🇰🇷 한국 주식 티커 형식
+    # 형식 1: 6자리.KS 또는 6자리.KQ
     if re.match(r'^\d{6}\.(KS|KQ)$', input_text):
         return input_text
 
-    # 6자리 숫자만 입력한 경우 .KS 추가
+    # 형식 2: 6자리 숫자만 (기본 .KS 추가)
     if re.match(r'^\d{6}$', input_text):
         return f"{input_text}.KS"
+
+    # 🇺🇸 미국 주식 티커 형식
+    # 형식 1: 영문자 1-5글자 (AAPL, MSFT, GOOGL 등)
+    if re.match(r'^[A-Z]{1,5}$', input_text):
+        return input_text
+
+    # 형식 2: 영문자 + 점 (BRK.B, BRK.A 등)
+    if re.match(r'^[A-Z]{1,5}\.[A-Z]$', input_text):
+        return input_text
 
     return None
 
@@ -710,10 +770,75 @@ def main():
     with col2:
         st.markdown("### [SEARCH] 종목 검색")
 
+        # 국가별 탭
+        tab1, tab2 = st.tabs(["🇰🇷 한국 주식", "🇺🇸 미국 주식"])
+
+        with tab1:
+            st.markdown("**인기 종목 바로가기**")
+
+            # 한국 인기 종목 버튼 (3열)
+            kr_col1, kr_col2, kr_col3 = st.columns(3)
+
+            with kr_col1:
+                if st.button("삼성전자", key="btn_samsung", use_container_width=True):
+                    st.session_state.ticker_input = "삼성전자"
+                if st.button("카카오", key="btn_kakao", use_container_width=True):
+                    st.session_state.ticker_input = "카카오"
+                if st.button("셀트리온", key="btn_celltrion", use_container_width=True):
+                    st.session_state.ticker_input = "셀트리온"
+
+            with kr_col2:
+                if st.button("SK하이닉스", key="btn_sk", use_container_width=True):
+                    st.session_state.ticker_input = "SK하이닉스"
+                if st.button("현대차", key="btn_hyundai", use_container_width=True):
+                    st.session_state.ticker_input = "현대차"
+                if st.button("LG화학", key="btn_lg", use_container_width=True):
+                    st.session_state.ticker_input = "LG화학"
+
+            with kr_col3:
+                if st.button("NAVER", key="btn_naver", use_container_width=True):
+                    st.session_state.ticker_input = "NAVER"
+                if st.button("삼성바이오", key="btn_bio", use_container_width=True):
+                    st.session_state.ticker_input = "삼성바이오로직스"
+                if st.button("기아", key="btn_kia", use_container_width=True):
+                    st.session_state.ticker_input = "기아"
+
+        with tab2:
+            st.markdown("**인기 종목 바로가기**")
+
+            # 미국 인기 종목 버튼 (3열)
+            us_col1, us_col2, us_col3 = st.columns(3)
+
+            with us_col1:
+                if st.button("Apple (AAPL)", key="btn_apple", use_container_width=True):
+                    st.session_state.ticker_input = "AAPL"
+                if st.button("Tesla (TSLA)", key="btn_tesla", use_container_width=True):
+                    st.session_state.ticker_input = "TSLA"
+                if st.button("Amazon (AMZN)", key="btn_amazon", use_container_width=True):
+                    st.session_state.ticker_input = "AMZN"
+
+            with us_col2:
+                if st.button("Microsoft (MSFT)", key="btn_msft", use_container_width=True):
+                    st.session_state.ticker_input = "MSFT"
+                if st.button("Nvidia (NVDA)", key="btn_nvda", use_container_width=True):
+                    st.session_state.ticker_input = "NVDA"
+                if st.button("Google (GOOGL)", key="btn_google", use_container_width=True):
+                    st.session_state.ticker_input = "GOOGL"
+
+            with us_col3:
+                if st.button("Meta (META)", key="btn_meta", use_container_width=True):
+                    st.session_state.ticker_input = "META"
+                if st.button("Netflix (NFLX)", key="btn_nflx", use_container_width=True):
+                    st.session_state.ticker_input = "NFLX"
+                if st.button("AMD", key="btn_amd", use_container_width=True):
+                    st.session_state.ticker_input = "AMD"
+
+        st.markdown("---")
+
         # 검색창
         ticker_input = st.text_input(
             "",
-            placeholder="종목명 또는 티커를 입력하세요 (예: 삼성전자, 005930.KS)",
+            placeholder="종목명 또는 티커 입력 (예: 삼성전자, 005930, AAPL, Tesla)",
             key="ticker_input",
             label_visibility="collapsed"
         )
