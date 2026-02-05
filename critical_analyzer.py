@@ -14,6 +14,28 @@ from anthropic import Anthropic
 load_dotenv()
 
 
+def get_api_key(key_name: str) -> str:
+    """
+    Streamlit Secrets 또는 환경변수에서 API 키 가져오기
+
+    Args:
+        key_name: API 키 이름
+
+    Returns:
+        API 키 값
+    """
+    try:
+        import streamlit as st
+        # Streamlit Secrets에서 먼저 시도
+        if key_name in st.secrets:
+            return st.secrets[key_name]
+    except:
+        pass
+
+    # 환경변수에서 읽기
+    return os.getenv(key_name)
+
+
 class CriticalAnalyzer:
     """비판적 추론 프레임워크를 적용한 데이터 분석 클래스"""
 
@@ -22,9 +44,9 @@ class CriticalAnalyzer:
         Args:
             anthropic_api_key: Claude API 키 (환경변수 ANTHROPIC_API_KEY로도 설정 가능)
         """
-        self.api_key = anthropic_api_key or os.getenv('ANTHROPIC_API_KEY')
+        self.api_key = anthropic_api_key or get_api_key('ANTHROPIC_API_KEY')
         if not self.api_key:
-            raise ValueError("ANTHROPIC_API_KEY가 설정되지 않았습니다.")
+            raise ValueError("ANTHROPIC_API_KEY가 설정되지 않았습니다. Streamlit Secrets 또는 .env 파일에서 API 키를 설정하세요.")
 
         self.client = Anthropic(api_key=self.api_key)
 

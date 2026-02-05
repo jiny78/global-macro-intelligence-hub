@@ -20,6 +20,28 @@ from urllib.parse import quote
 load_dotenv()
 
 
+def get_api_key(key_name: str) -> str:
+    """
+    Streamlit Secrets 또는 환경변수에서 API 키 가져오기
+
+    Args:
+        key_name: API 키 이름
+
+    Returns:
+        API 키 값
+    """
+    try:
+        import streamlit as st
+        # Streamlit Secrets에서 먼저 시도
+        if key_name in st.secrets:
+            return st.secrets[key_name]
+    except:
+        pass
+
+    # 환경변수에서 읽기
+    return os.getenv(key_name)
+
+
 class DataCollector:
     """주가, 뉴스, 공시 데이터를 수집하는 클래스"""
 
@@ -28,8 +50,8 @@ class DataCollector:
         Args:
             dart_api_key: OpenDART API 키 (환경변수 DART_API_KEY로도 설정 가능)
         """
-        # .env에서 API 키 읽기
-        self.dart_api_key = dart_api_key or os.getenv('DART_API_KEY')
+        # Streamlit Secrets 또는 .env에서 API 키 읽기
+        self.dart_api_key = dart_api_key or get_api_key('DART_API_KEY')
 
         # DART API 설정
         self.dart_initialized = False
