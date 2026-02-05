@@ -341,7 +341,7 @@ class AnalysisHistory:
 
 
 def get_ticker_mapping():
-    """종목명-티커 매핑 반환 (한국 200종목 + 미국 50종목)"""
+    """종목명-티커 매핑 반환 (한국 200종목 + 미국 150종목)"""
     mapping = {}
 
     # ========================================
@@ -430,10 +430,10 @@ def get_ticker_mapping():
     }
 
     # ========================================
-    # 🇺🇸 미국 주요 50개 종목
+    # 🇺🇸 미국 주요 150개 종목
     # ========================================
     us_stocks = {
-        # 빅테크
+        # 빅테크 (1-8)
         "애플": "AAPL", "Apple": "AAPL", "AAPL": "AAPL",
         "마이크로소프트": "MSFT", "Microsoft": "MSFT", "MSFT": "MSFT",
         "엔비디아": "NVDA", "Nvidia": "NVDA", "NVDA": "NVDA",
@@ -442,35 +442,58 @@ def get_ticker_mapping():
         "메타": "META", "Meta": "META", "페이스북": "META", "Facebook": "META", "META": "META",
         "테슬라": "TSLA", "Tesla": "TSLA", "TSLA": "TSLA",
         "넷플릭스": "NFLX", "Netflix": "NFLX", "NFLX": "NFLX",
-        # 금융
+
+        # 금융 (9-25)
         "버크셔해서웨이": "BRK.B", "Berkshire": "BRK.B", "BRK.B": "BRK.B",
         "비자": "V", "Visa": "V", "V": "V",
         "마스터카드": "MA", "Mastercard": "MA", "MA": "MA",
         "JPM체이스": "JPM", "JPMorgan": "JPM", "JPM": "JPM",
-        # 제조/소비재
+        "뱅크오브아메리카": "BAC", "Bank of America": "BAC", "BAC": "BAC",
+        "웰스파고": "WFC", "Wells Fargo": "WFC", "WFC": "WFC",
+        "골드만삭스": "GS", "Goldman Sachs": "GS", "GS": "GS",
+        "모건스탠리": "MS", "Morgan Stanley": "MS", "MS": "MS",
+        "씨티그룹": "C", "Citigroup": "C", "C": "C",
+        "아메리칸익스프레스": "AXP", "American Express": "AXP", "AXP": "AXP",
+        "찰스슈왑": "SCHW", "Charles Schwab": "SCHW", "SCHW": "SCHW",
+        "블랙록": "BLK", "BlackRock": "BLK", "BLK": "BLK",
+        "S&P글로벌": "SPGI", "S&P": "SPGI", "SPGI": "SPGI",
+        "무디스": "MCO", "Moody's": "MCO", "MCO": "MCO",
+        "CME그룹": "CME", "CME": "CME",
+        "인터컨티넨탈익스체인지": "ICE", "ICE": "ICE",
+        "트루이스트": "TFC", "Truist": "TFC", "TFC": "TFC",
+
+        # 소비재/유통 (26-40)
         "월마트": "WMT", "Walmart": "WMT", "WMT": "WMT",
-        "엑슨모빌": "XOM", "Exxon": "XOM", "XOM": "XOM",
-        "존슨앤존슨": "JNJ", "Johnson": "JNJ", "JNJ": "JNJ",
-        "프록터앤갬블": "PG", "Procter": "PG", "PG": "PG",
+        "코스트코": "COST", "Costco": "COST", "COST": "COST",
+        "타겟": "TGT", "Target": "TGT", "TGT": "TGT",
+        "홈디포": "HD", "Home Depot": "HD", "HD": "HD",
+        "로우스": "LOW", "Lowe's": "LOW", "LOW": "LOW",
+        "CVS": "CVS", "CVS헬스": "CVS",
+        "월그린": "WBA", "Walgreens": "WBA", "WBA": "WBA",
         "코카콜라": "KO", "Coca-Cola": "KO", "KO": "KO",
+        "펩시": "PEP", "Pepsi": "PEP", "PEP": "PEP",
+        "프록터앤갬블": "PG", "Procter": "PG", "PG": "PG",
         "나이키": "NKE", "Nike": "NKE", "NKE": "NKE",
         "맥도날드": "MCD", "McDonald": "MCD", "MCD": "MCD",
         "스타벅스": "SBUX", "Starbucks": "SBUX", "SBUX": "SBUX",
         "디즈니": "DIS", "Disney": "DIS", "DIS": "DIS",
-        # 테크/반도체
-        "AMD": "AMD", "어드밴스드마이크로디바이시스": "AMD",
-        "인텔": "INTC", "Intel": "INTC", "INTC": "INTC",
-        "퀄컴": "QCOM", "Qualcomm": "QCOM", "QCOM": "QCOM",
+        "넷플릭스": "NFLX", "Netflix": "NFLX", "NFLX": "NFLX",
+
+        # 테크/소프트웨어 (41-65)
+        "세일즈포스": "CRM", "Salesforce": "CRM", "CRM": "CRM",
+        "서비스나우": "NOW", "ServiceNow": "NOW", "NOW": "NOW",
+        "워크데이": "WDAY", "Workday": "WDAY", "WDAY": "WDAY",
+        "쇼피파이": "SHOP", "Shopify": "SHOP", "SHOP": "SHOP",
+        "블록": "SQ", "Square": "SQ", "SQ": "SQ",
+        "코인베이스": "COIN", "Coinbase": "COIN", "COIN": "COIN",
+        "트윌리오": "TWLO", "Twilio": "TWLO", "TWLO": "TWLO",
+        "데이터독": "DDOG", "Datadog": "DDOG", "DDOG": "DDOG",
+        "크라우드스트라이크": "CRWD", "CrowdStrike": "CRWD", "CRWD": "CRWD",
+        "클라우드플레어": "NET", "Cloudflare": "NET", "NET": "NET",
         "어도비": "ADBE", "Adobe": "ADBE", "ADBE": "ADBE",
         "오라클": "ORCL", "Oracle": "ORCL", "ORCL": "ORCL",
         "시스코": "CSCO", "Cisco": "CSCO", "CSCO": "CSCO",
         "IBM": "IBM",
-        # 헬스케어/제약
-        "유나이티드헬스": "UNH", "UnitedHealth": "UNH", "UNH": "UNH",
-        "엘리릴리": "LLY", "Eli Lilly": "LLY", "LLY": "LLY",
-        "화이자": "PFE", "Pfizer": "PFE", "PFE": "PFE",
-        "애브비": "ABBV", "AbbVie": "ABBV", "ABBV": "ABBV",
-        # 신흥 테크
         "우버": "UBER", "Uber": "UBER", "UBER": "UBER",
         "에어비앤비": "ABNB", "Airbnb": "ABNB", "ABNB": "ABNB",
         "스냅": "SNAP", "Snap": "SNAP", "SNAP": "SNAP",
@@ -479,12 +502,108 @@ def get_ticker_mapping():
         "페이팔": "PYPL", "PayPal": "PYPL", "PYPL": "PYPL",
         "팔란티어": "PLTR", "Palantir": "PLTR", "PLTR": "PLTR",
         "스노우플레이크": "SNOW", "Snowflake": "SNOW", "SNOW": "SNOW",
-        # 산업/제조
+        "핀터레스트": "PINS", "Pinterest": "PINS", "PINS": "PINS",
+        "로블록스": "RBLX", "Roblox": "RBLX", "RBLX": "RBLX",
+        "도어대시": "DASH", "DoorDash": "DASH", "DASH": "DASH",
+
+        # 반도체 (66-75)
+        "AMD": "AMD",
+        "인텔": "INTC", "Intel": "INTC", "INTC": "INTC",
+        "퀄컴": "QCOM", "Qualcomm": "QCOM", "QCOM": "QCOM",
+        "브로드컴": "AVGO", "Broadcom": "AVGO", "AVGO": "AVGO",
+        "텍사스인스트루먼트": "TXN", "Texas Instruments": "TXN", "TXN": "TXN",
+        "어플라이드머티어리얼즈": "AMAT", "Applied Materials": "AMAT", "AMAT": "AMAT",
+        "램리서치": "LRCX", "Lam Research": "LRCX", "LRCX": "LRCX",
+        "KLA": "KLAC", "KLAC": "KLAC",
+        "마이크론": "MU", "Micron": "MU", "MU": "MU",
+        "ARM": "ARM",
+
+        # 헬스케어/제약/바이오 (76-95)
+        "유나이티드헬스": "UNH", "UnitedHealth": "UNH", "UNH": "UNH",
+        "엘리릴리": "LLY", "Eli Lilly": "LLY", "LLY": "LLY",
+        "존슨앤존슨": "JNJ", "Johnson": "JNJ", "JNJ": "JNJ",
+        "화이자": "PFE", "Pfizer": "PFE", "PFE": "PFE",
+        "애브비": "ABBV", "AbbVie": "ABBV", "ABBV": "ABBV",
+        "머크": "MRK", "Merck": "MRK", "MRK": "MRK",
+        "브리스톨마이어스": "BMY", "Bristol-Myers": "BMY", "BMY": "BMY",
+        "모더나": "MRNA", "Moderna": "MRNA", "MRNA": "MRNA",
+        "리제네론": "REGN", "Regeneron": "REGN", "REGN": "REGN",
+        "길리어드": "GILD", "Gilead": "GILD", "GILD": "GILD",
+        "암젠": "AMGN", "Amgen": "AMGN", "AMGN": "AMGN",
+        "버텍스": "VRTX", "Vertex": "VRTX", "VRTX": "VRTX",
+        "써모피셔": "TMO", "Thermo Fisher": "TMO", "TMO": "TMO",
+        "다나허": "DHR", "Danaher": "DHR", "DHR": "DHR",
+        "애보트": "ABT", "Abbott": "ABT", "ABT": "ABT",
+        "메드트로닉": "MDT", "Medtronic": "MDT", "MDT": "MDT",
+        "일루미나": "ILMN", "Illumina": "ILMN", "ILMN": "ILMN",
+        "바이오젠": "BIIB", "Biogen": "BIIB", "BIIB": "BIIB",
+        "인튜이티브서지컬": "ISRG", "Intuitive Surgical": "ISRG", "ISRG": "ISRG",
+        "스트라이커": "SYK", "Stryker": "SYK", "SYK": "SYK",
+
+        # 에너지 (96-105)
+        "엑슨모빌": "XOM", "Exxon": "XOM", "XOM": "XOM",
+        "쉐브론": "CVX", "Chevron": "CVX", "CVX": "CVX",
+        "코노코필립스": "COP", "ConocoPhillips": "COP", "COP": "COP",
+        "슐럼버거": "SLB", "Schlumberger": "SLB", "SLB": "SLB",
+        "EOG리소시스": "EOG", "EOG": "EOG",
+        "필립스66": "PSX", "Phillips 66": "PSX", "PSX": "PSX",
+        "마라톤페트롤리엄": "MPC", "Marathon": "MPC", "MPC": "MPC",
+        "밸러로에너지": "VLO", "Valero": "VLO", "VLO": "VLO",
+        "옥시덴탈페트롤리엄": "OXY", "Occidental": "OXY", "OXY": "OXY",
+        "파이어니어": "PXD", "Pioneer": "PXD", "PXD": "PXD",
+
+        # 산업/항공/방산 (106-125)
         "보잉": "BA", "Boeing": "BA", "BA": "BA",
         "캐터필러": "CAT", "Caterpillar": "CAT", "CAT": "CAT",
+        "제너럴일렉트릭": "GE", "GE": "GE",
+        "허니웰": "HON", "Honeywell": "HON", "HON": "HON",
+        "3M": "MMM", "3M": "MMM",
+        "로킹마틴": "LMT", "Lockheed Martin": "LMT", "LMT": "LMT",
+        "레이시온": "RTX", "Raytheon": "RTX", "RTX": "RTX",
+        "노스롭그루먼": "NOC", "Northrop Grumman": "NOC", "NOC": "NOC",
+        "유나이티드항공": "UAL", "United Airlines": "UAL", "UAL": "UAL",
+        "델타항공": "DAL", "Delta": "DAL", "DAL": "DAL",
+        "아메리칸항공": "AAL", "American Airlines": "AAL", "AAL": "AAL",
+        "사우스웨스트": "LUV", "Southwest": "LUV", "LUV": "LUV",
+        "유니온퍼시픽": "UNP", "Union Pacific": "UNP", "UNP": "UNP",
+        "디어": "DE", "Deere": "DE", "DE": "DE",
+        "파커하니핀": "PH", "Parker-Hannifin": "PH", "PH": "PH",
+        "이튼": "ETN", "Eaton": "ETN", "ETN": "ETN",
+        "에머슨일렉트릭": "EMR", "Emerson": "EMR", "EMR": "EMR",
+        "웨이스트매니지먼트": "WM", "Waste Management": "WM", "WM": "WM",
+        "레포블릭서비스": "RSG", "Republic Services": "RSG", "RSG": "RSG",
+        "FedEx": "FDX", "FDX": "FDX",
+
+        # 통신/미디어 (126-135)
+        "버라이즌": "VZ", "Verizon": "VZ", "VZ": "VZ",
+        "AT&T": "T", "T": "T",
+        "티모바일": "TMUS", "T-Mobile": "TMUS", "TMUS": "TMUS",
+        "컴캐스트": "CMCSA", "Comcast": "CMCSA", "CMCSA": "CMCSA",
+        "차터커뮤니케이션즈": "CHTR", "Charter": "CHTR", "CHTR": "CHTR",
+        "워너브러더스": "WBD", "Warner Bros": "WBD", "WBD": "WBD",
+        "파라마운트": "PARA", "Paramount": "PARA", "PARA": "PARA",
+        "폭스": "FOX", "Fox": "FOX", "FOX": "FOX",
+        "뉴욕타임스": "NYT", "New York Times": "NYT", "NYT": "NYT",
+        "오픈도어": "OPEN", "Opendoor": "OPEN", "OPEN": "OPEN",
+
+        # 자동차/EV (136-142)
         "포드": "F", "Ford": "F", "F": "F",
         "제너럴모터스": "GM", "GM": "GM",
-        "제너럴일렉트릭": "GE", "GE": "GE",
+        "리비안": "RIVN", "Rivian": "RIVN", "RIVN": "RIVN",
+        "루시드": "LCID", "Lucid": "LCID", "LCID": "LCID",
+        "니오": "NIO", "Nio": "NIO", "NIO": "NIO",
+        "XPeng": "XPEV", "XPEV": "XPEV",
+        "피스커": "FSR", "Fisker": "FSR", "FSR": "FSR",
+
+        # 부동산/REIT (143-150)
+        "아메리칸타워": "AMT", "American Tower": "AMT", "AMT": "AMT",
+        "프롤로지스": "PLD", "Prologis": "PLD", "PLD": "PLD",
+        "사이먼프로퍼티": "SPG", "Simon Property": "SPG", "SPG": "SPG",
+        "에쿼닉스": "EQIX", "Equinix": "EQIX", "EQIX": "EQIX",
+        "디지털리얼티": "DLR", "Digital Realty": "DLR", "DLR": "DLR",
+        "크라운캐슬": "CCI", "Crown Castle": "CCI", "CCI": "CCI",
+        "웰타워": "WELL", "Welltower": "WELL", "WELL": "WELL",
+        "벤타스": "VTR", "Ventas": "VTR", "VTR": "VTR",
     }
 
     # 모든 매핑 합치기
