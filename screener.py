@@ -81,12 +81,11 @@ class StockScreener:
             분석 결과 딕셔너리
         """
         try:
-            # 데이터 가져오기
+            # 데이터 가져오기 (오늘 종가 포함)
             stock = yf.Ticker(ticker)
-            end_date = datetime.now()
-            start_date = end_date - timedelta(days=days+20)  # 여유있게
 
-            hist = stock.history(start=start_date, end=end_date)
+            # period 파라미터로 최신 데이터 가져오기
+            hist = stock.history(period="2mo", interval="1d")
 
             if len(hist) < 2:
                 return None

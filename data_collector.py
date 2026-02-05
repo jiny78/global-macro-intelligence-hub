@@ -83,7 +83,7 @@ class DataCollector:
 
     def get_stock_data(self, ticker: str, days: int = 7) -> Dict[str, Any]:
         """
-        yfinance로 주가 데이터 수집
+        yfinance로 주가 데이터 수집 (오늘 종가 포함)
 
         Args:
             ticker: 종목 티커 (예: '005930.KS')
@@ -96,14 +96,17 @@ class DataCollector:
             print(f"[INFO] {ticker} Stock data collection...")
             stock = yf.Ticker(ticker)
 
-            # 최근 N일 데이터 가져오기
-            end_date = datetime.now()
-            start_date = end_date - timedelta(days=days+5)  # 주말 포함하여 여유있게
+            # period 파라미터로 최신 데이터 가져오기 (오늘 종가 포함)
+            # period="1mo"를 사용하여 충분한 데이터 확보 후 tail로 자르기
+            hist = stock.history(period="1mo", interval="1d")
 
-            hist = stock.history(start=start_date, end=end_date)
-
-            # 최근 7일 영업일 데이터만 추출
+            # 최근 N일 영업일 데이터만 추출
             hist = hist.tail(days)
+
+            # 데이터가 없으면 period를 늘려서 재시도
+            if len(hist) == 0:
+                hist = stock.history(period="3mo", interval="1d")
+                hist = hist.tail(days)
 
             stock_data = {
                 "ticker": ticker,
