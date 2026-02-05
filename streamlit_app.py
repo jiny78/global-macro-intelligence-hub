@@ -92,9 +92,10 @@ if not check_password():
 # 여기서부터 원래 앱 코드
 # ============================================
 
-# 커스텀 CSS
+# 커스텀 CSS (모바일 반응형 포함)
 st.markdown("""
 <style>
+    /* 기본 스타일 */
     .main-header {
         text-align: center;
         padding: 2rem 0;
@@ -134,6 +135,160 @@ st.markdown("""
     }
     .recent-item:hover {
         background: #e9ecef;
+    }
+
+    /* ========================================
+       모바일 반응형 스타일 (768px 이하)
+       ======================================== */
+    @media (max-width: 768px) {
+        /* 메인 컨테이너 */
+        .main .block-container {
+            padding: 1rem 0.5rem !important;
+            max-width: 100% !important;
+        }
+
+        /* 헤더 */
+        .main-header {
+            padding: 1rem 0.5rem !important;
+            margin-bottom: 1rem !important;
+        }
+        .main-header h1 {
+            font-size: 1.3rem !important;
+        }
+        .main-header p {
+            font-size: 0.85rem !important;
+        }
+
+        /* 검색박스 */
+        .search-box {
+            margin: 1rem 0 !important;
+        }
+
+        /* 버튼 */
+        .stButton>button {
+            padding: 0.6rem !important;
+            font-size: 0.9rem !important;
+        }
+
+        /* 메트릭 카드 */
+        .metric-card {
+            padding: 0.75rem !important;
+            font-size: 0.85rem !important;
+        }
+
+        /* Streamlit 기본 요소 */
+        .stMarkdown {
+            font-size: 0.9rem !important;
+        }
+
+        /* 사이드바 */
+        section[data-testid="stSidebar"] {
+            width: 280px !important;
+        }
+        section[data-testid="stSidebar"] .stMarkdown {
+            font-size: 0.85rem !important;
+        }
+
+        /* 탭 */
+        .stTabs [data-baseweb="tab-list"] {
+            gap: 0.5rem !important;
+        }
+        .stTabs [data-baseweb="tab"] {
+            font-size: 0.85rem !important;
+            padding: 0.5rem 0.75rem !important;
+        }
+
+        /* 차트 */
+        .js-plotly-plot {
+            width: 100% !important;
+            height: auto !important;
+        }
+
+        /* 테이블 */
+        .dataframe {
+            font-size: 0.75rem !important;
+        }
+
+        /* 입력 필드 */
+        .stTextInput input {
+            font-size: 0.9rem !important;
+        }
+
+        /* 선택박스 */
+        .stSelectbox {
+            font-size: 0.9rem !important;
+        }
+
+        /* 컬럼 간격 조정 */
+        [data-testid="column"] {
+            padding: 0.25rem !important;
+        }
+
+        /* Expander */
+        .streamlit-expanderHeader {
+            font-size: 0.9rem !important;
+        }
+
+        /* 메트릭 */
+        [data-testid="stMetric"] {
+            font-size: 0.85rem !important;
+        }
+        [data-testid="stMetricLabel"] {
+            font-size: 0.75rem !important;
+        }
+        [data-testid="stMetricValue"] {
+            font-size: 1rem !important;
+        }
+    }
+
+    /* ========================================
+       작은 모바일 (480px 이하)
+       ======================================== */
+    @media (max-width: 480px) {
+        .main .block-container {
+            padding: 0.5rem 0.25rem !important;
+        }
+
+        .main-header h1 {
+            font-size: 1.1rem !important;
+        }
+        .main-header p {
+            font-size: 0.75rem !important;
+        }
+
+        .stButton>button {
+            padding: 0.5rem !important;
+            font-size: 0.85rem !important;
+        }
+
+        section[data-testid="stSidebar"] {
+            width: 240px !important;
+        }
+
+        [data-testid="stMetricValue"] {
+            font-size: 0.9rem !important;
+        }
+    }
+
+    /* ========================================
+       터치 최적화
+       ======================================== */
+    @media (hover: none) and (pointer: coarse) {
+        /* 터치 디바이스용 버튼 크기 증가 */
+        .stButton>button {
+            min-height: 44px !important;
+        }
+
+        /* 입력 필드 크기 증가 */
+        .stTextInput input,
+        .stSelectbox select {
+            min-height: 44px !important;
+        }
+
+        /* 클릭 영역 증가 */
+        .recent-item {
+            padding: 1rem !important;
+        }
     }
 </style>
 """, unsafe_allow_html=True)
